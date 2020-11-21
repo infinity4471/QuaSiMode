@@ -1,11 +1,9 @@
 import numpy as np
+from node import node
 
-class operator:
-    def __init__( self, matrix = None ):
-        if matrix is None:
-            self.matrix = np.array( [ [ 1., 0. ], [ 0., 1. ] ] )
-        else:
-            self.matrix = matrix
+class operator( node ):
+    def __init__( self, name, matrix = None ):
+        super().__init__( name, matrix )
         assert self.valid_operator()
 
     def valid_operator( self ):

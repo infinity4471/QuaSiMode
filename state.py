@@ -3,33 +3,39 @@ import matplotlib.pyplot as plt
 from math import log2
 
 from operations import tensor_product, tobinary
+from node import node
 
-class state:
-    def __init__( self, init_state = None ):
-        if state is None:
-            self.vector = np.array( [ 1., 0. ] )
+class state( node ):
+    def __init__( self, name, init_state = None ):
+        super().__init__( name, init_state )
+        if not init_state is None:
+            self.nqubits = int( log2( len( self.matrix ) ) )
         else:
-            init_state = np.array( list( map( float, init_state ) ) )
-            self.vector = np.array( init_state )
-        self.nqubits = int( log2( len( self.vector ) ) )
+            self.nqubits = 0
         self.results = {}
 
     def set_state( self, new_state ):
-        self.vector = new_state
+        self.matrix = new_state
+        self.nqubits = int( log2( len( self.matrix ) ) )
+
     
     def add_state( self, new_state ):
-        self.vector = tensor_product( self.vector, new_state.get_state() )
+        if self.matrix is None:
+            self.nqubits = new_state.nqubits
+            self.matrix = new_state.get_matrix()
+            return
+        self.matrix = tensor_product( self.matrix, new_state.get_state() )
         self.nqubits += new_state.nqubits
 
     def get_state( self ):
-        return self.vector
+        return self.matrix
 
     def apply_operator( self, operator ):
-        self.vector = operator.get_matrix().dot(  self.vector )    
+        self.matrix = operator.get_matrix().dot(  self.matrix )    
     
     def measure( self ):
-        distribution = np.square( self.vector )
-        return np.random.choice( range( len( self.vector ) ), p = distribution )
+        distribution = np.square( self.matrix )
+        return np.random.choice( range( len( self.matrix ) ), p = distribution )
     
     def evaluate_results( self, shots = 1024 ):
         self.results = {}
