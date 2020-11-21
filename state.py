@@ -23,9 +23,6 @@ class state:
 
     def get_state( self ):
         return self.vector
-    
-    def get_results( self ):
-        return self.results
 
     def apply_operator( self, operator ):
         self.vector = operator.get_matrix().dot(  self.vector )    
@@ -47,3 +44,6 @@ class state:
     def plot_results( self ):
         plt.bar(self.results.keys(), self.results.values(), color='b')
         plt.show()
+    
+    def get_results( self ):
+        return self.results
