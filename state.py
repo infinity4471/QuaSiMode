@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import log2
 
-from operations import tensor_product, tobinary
 from node import node
+from operations import tensor_product, tobinary
 
 class state( node ):
     def __init__( self, name, init_state = None ):
@@ -24,10 +24,10 @@ class state( node ):
             self.nqubits = new_state.nqubits
             self.matrix = new_state.get_matrix()
             return
-        self.matrix = tensor_product( self.matrix, new_state.get_state() )
+        self.matrix = tensor_product( self.matrix, new_state.get_matrix() )
         self.nqubits += new_state.nqubits
 
-    def get_state( self ):
+    def get_matrix( self ):
         return self.matrix
 
     def apply_operator( self, operator ):
