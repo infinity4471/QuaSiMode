@@ -1,4 +1,5 @@
 import numpy as np
+
 from node import node
 
 class operator( node ):
@@ -14,6 +15,8 @@ class operator( node ):
         return True
 
     def apply( self, operator ):
+        print( self.matrix )
+        print( operator.get_matrix( ) )
         self.matrix = self.matrix.dot( operator.get_matrix() )
 
     def get_matrix( self ):

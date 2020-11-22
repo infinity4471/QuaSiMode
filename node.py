@@ -2,7 +2,7 @@ class node:
     def __init__( self, name, matrix ):
         self.matrix = matrix
         self.name = name
-        self.next = None
+        self.next = []
 
     def get_next( self ):
         return self.next
@@ -14,4 +14,4 @@ class node:
         return self.matrix
 
     def add_gate( self, gate ):
-        self.next = gate
+        self.next.append( gate )
